@@ -17,6 +17,6 @@ RUN apk add -U -v nfs-utils bash iproute2 nano && \
 COPY nfsd.sh /usr/bin/nfsd.sh
 COPY .bashrc /root/.bashrc
 
-RUN chmod +x /usr/bin/nfsd.sh /usr/bin/confd
+RUN chmod +x /usr/bin/nfsd.sh
 
 ENTRYPOINT ["/usr/bin/nfsd.sh"]
