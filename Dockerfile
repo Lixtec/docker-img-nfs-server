@@ -6,18 +6,13 @@ MAINTAINER Lixtec - Ludovic TERRAL
 ENV TZ Europe/paris
 
 # Configuration du server nfs
-RUN apk add -U -v nfs-utils bash iproute2 && \
+RUN apk add -U -v nfs-utils bash iproute2 nano && \
     rm -rf /var/cache/apk/* /tmp/* && \
     rm -f /sbin/halt /sbin/poweroff /sbin/reboot && \
     mkdir -p /var/lib/nfs/rpc_pipefs && \
     mkdir -p /var/lib/nfs/v4recovery && \
     echo "rpc_pipefs    /var/lib/nfs/rpc_pipefs rpc_pipefs      defaults        0       0" >> /etc/fstab && \
     echo "nfsd  /proc/fs/nfsd   nfsd    defaults        0       0" >> /etc/fstab
-
-COPY confd-binary /usr/bin/confd
-COPY confd/confd.toml /etc/confd/confd.toml
-#COPY confd/toml/* /etc/confd/conf.d/
-#COPY confd/tmpl/* /etc/confd/templates/
 
 COPY nfsd.sh /usr/bin/nfsd.sh
 COPY .bashrc /root/.bashrc
