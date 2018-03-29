@@ -15,28 +15,24 @@ stop()
 while true; do
   pid=$(pidof rpc.mountd)
   while [ -z "$pid" ]; do
-    echo "Starting Confd population of files..."
-    /usr/bin/confd -version
-    /usr/bin/confd -onetime
-    echo ""
     echo "Displaying /etc/exports contents..."
     cat /etc/exports
     echo ""
 
-    echo "Starting rpcbind..."
-    /sbin/rpcbind -w
-    echo "Displaying rpcbind status..."
-    /sbin/rpcinfo
-    /usr/sbin/rpc.idmapd
-    /usr/sbin/rpc.gssd -v
+    #echo "Starting rpcbind..."
+    #/sbin/rpcbind -w
+    #echo "Displaying rpcbind status..."
+    #/sbin/rpcinfo
+    #/usr/sbin/rpc.idmapd
+    #/usr/sbin/rpc.gssd -v
 
     echo "Starting NFS in the background..."
-    rpc.nfsd -d 8 -N 2 -V 3 -V 4 -U
+    rpc.nfsd -d 8 -N 2 -N 3 -V 4 -U
     echo "Exporting File System..."
     /usr/sbin/exportfs -rv 
     
     echo "Starting Mountd in the background..."
-    /usr/sbin/rpc.mountd -d all -V 3 -V 4 -N 2 -u
+    /usr/sbin/rpc.mountd -d all -N 2 -N 3 -V 4 -u
 
     pid=$(pidof rpc.mountd)
     if [ -z "$pid" ]; then
